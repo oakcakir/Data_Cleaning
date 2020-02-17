@@ -9,23 +9,23 @@
 
 library(tidyverse)
 
-data_train <- read_delim("X_train.txt", delim = " ", col_names = FALSE)
+data_train <- read_delim("train/X_train.txt", delim = " ", col_names = FALSE)
 data_train <- lapply(data_train, as.numeric)
-data_y_train <- read_csv("y_train.txt", col_names = FALSE)
+data_y_train <- read_csv("train/y_train.txt", col_names = FALSE)
 data_train <- cbind(data_y_train, data_train)
-data_subject_train <- read_csv("subject_train.txt", col_names = FALSE)
+data_subject_train <- read_csv("train/subject_train.txt", col_names = FALSE)
 data_train <- cbind(data_subject_train, data_train)
 
-data_test <- read_delim("../test/X_test.txt", delim = " ", col_names = FALSE)
+data_test <- read_delim("test/X_test.txt", delim = " ", col_names = FALSE)
 data_test <- lapply(data_test, as.numeric)
-data_y_test <- read_csv("../test/y_test.txt", col_names = FALSE)
+data_y_test <- read_csv("test/y_test.txt", col_names = FALSE)
 data_test <- cbind(data_y_test, data_test)
-data_subject_test <- read_csv("../test/subject_test.txt", col_names = FALSE)
+data_subject_test <- read_csv("test/subject_test.txt", col_names = FALSE)
 data_test <- cbind(data_subject_test, data_test)
 
 data <- rbind(data_train, data_test)
 
-features <- read_csv("../features.txt", col_names = FALSE)
+features <- read_csv("features.txt", col_names = FALSE)
 features <- rbind("activity", features)
 features <- rbind("subject", features)
 features <- unlist(features)
@@ -38,4 +38,6 @@ levels(data$activity) <- c("walking","walking_upstairs","walking_downstairs","si
 data_mean <- data %>% group_by(subject, activity) %>% summarize_all(mean, na.rm = TRUE)
 
 write.table(data_mean, "data_mean.txt", row.names = FALSE)
+
+
 
